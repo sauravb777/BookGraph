@@ -1,0 +1,13 @@
+BookGraph dataset attribution
+
+Dataset: Goodbooks-10k
+Original source: https://github.com/zygmuntz/goodbooks-10k
+Original attribution: Zygmunt Zajac
+License: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+License text: https://creativecommons.org/licenses/by-sa/4.0/
+
+BookGraph downloads the source CSV files during setup. Its prepared catalogue and
+metadata-derived semantic text are generated from the source records and community-
+assigned shelf tags. The source does not provide full book synopses in the CSV files.
+Any redistribution of adapted dataset material must comply with the applicable
+Attribution and ShareAlike terms of CC BY-SA 4.0.
