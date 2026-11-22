@@ -11,7 +11,7 @@ import networkx as nx
 import numpy as np
 from neo4j import GraphDatabase
 from qdrant_client import QdrantClient
-from sentence_transformers import SentenceTransformer
+from fastembed import TextEmbedding
 
 from .config import (
     EMBEDDING_MODEL,
@@ -44,8 +44,8 @@ GENERIC_THEMES = [
 
 
 @lru_cache(maxsize=1)
-def embedder() -> SentenceTransformer:
-    return SentenceTransformer(EMBEDDING_MODEL, device="cpu")
+def embedder() -> TextEmbedding:
+    return TextEmbedding(model_name=EMBEDDING_MODEL, threads=1)
 
 
 @lru_cache(maxsize=1)
@@ -82,13 +82,20 @@ def database_status() -> dict[str, Any]:
 
 
 def embed_query(query: str) -> list[float]:
-    vector = embedder().encode(
-        [query],
-        normalize_embeddings=True,
-        convert_to_numpy=True,
-        show_progress_bar=False,
-    )[0]
-    return vector.astype(np.float32).tolist()
+    vector = np.asarray(next(embedder().embed([query])), dtype=np.float32)
+
+    if vector.shape != (VECTOR_SIZE,):
+        raise ValueError(
+            f"Expected an embedding with {VECTOR_SIZE} dimensions, "
+            f"received {vector.shape}"
+        )
+
+    norm = float(np.linalg.norm(vector))
+    if not np.isfinite(norm) or norm <= 1e-12:
+        raise ValueError("Embedding model returned an invalid or zero-length vector")
+
+    vector = vector / norm
+    return vector.tolist()
 
 
 def search_vectors(query: str, limit: int):
