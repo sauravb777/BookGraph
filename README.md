@@ -2,7 +2,7 @@
 
 BookGraph is a book-discovery app built with FastAPI, Qdrant, Neo4j and Next.js. Search for a word or short phrase to find related books and explore the relationships between them in an interactive graph.
 
-**Live app:** [https://bookgraph-network.vercel.app/](https://bookgraph-network.vercel.app/) (Best Viewed on PC) **First Graph Generation might take little longer. So, pls wait for a moment**
+**Live app:** [https://bookgraph-network.vercel.app/](https://bookgraph-network.vercel.app/) (Best Viewed on PC) **[First Graph Generation might take little longer. So, pls wait for a moment]**
 
 
 
